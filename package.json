@@ -1,9 +1,9 @@
 {
 	"name": "crm-dashboard-customers",
 	"version": "1.0.0",
-	"description": "Проект з Webpack, Pug, SCSS та JavaScript",
-	"homepage": "https://kraiviks.github.io/crm-dashboard-customers",
-	"author": "Serhii Kostiv <kostiv.serhii@gmail.com>",
+	"description": "-",
+	"homepage": "https://n1xten.github.io/JOB-CRM/",
+	"author": "Mykyta Redka <xxxbiten@gmail.com>",
 	"license": "MIT",
 	"devDependencies": {
 		"css-loader": "^7.1.2",
@@ -19,5 +19,8 @@
 		"start": "webpack serve --mode development --hot",
 		"build": "webpack --mode production",
 		"deploy": "gh-pages -d dist"
+	},
+	"dependencies": {
+		"pug-cli": "^1.0.0-alpha6"
 	}
 }

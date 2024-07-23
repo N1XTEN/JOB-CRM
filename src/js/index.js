@@ -1,25 +1,44 @@
 import '../sass/reset.sass';
 import '../sass/index.sass';
 import data from './MOCK_DATA.json';
-// Assuming you have access to the `data` array and `customerTable` function
 
 document.addEventListener('DOMContentLoaded', function () {
+
+	// Функция для получения видимых страниц с учетом многоточий
 	function getVisiblePages(totalPages, currentPage) {
-		const visiblePages = [];
-		for (let page = 1; page <= totalPages; page++) {
-			if (
-				page === 1 ||
-				page === totalPages ||
-				(currentPage - 2 <= page && currentPage + 2 >= page)
-			) {
-				visiblePages.push(page);
-			} else if (page === currentPage - 3 || page === currentPage + 3) {
-				visiblePages.push('...');
+		const delta = 2;
+		const range = [];
+		const rangeWithDots = [];
+		let l;
+
+		// Добавляем первую страницу
+		range.push(1);
+		// Добавляем диапазон страниц вокруг текущей страницы
+		for (let i = currentPage - delta; i <= currentPage + delta; i++) {
+			if (i < totalPages && i > 1) {
+				range.push(i);
 			}
 		}
-		return visiblePages;
+		// Добавляем последнюю страницу
+		range.push(totalPages);
+
+		// Добавляем страницы и многоточия в финальный массив
+		range.forEach((page) => {
+			if (l) {
+				if (page - l === 2) {
+					rangeWithDots.push(l + 1);
+				} else if (page - l !== 1) {
+					rangeWithDots.push('...');
+				}
+			}
+			rangeWithDots.push(page);
+			l = page;
+		});
+
+		return rangeWithDots;
 	}
 
+	// Функция для настройки событий на ссылки пагинации
 	function setupPaginationLinks() {
 		const paginationLinks = document.querySelectorAll('.pagination__link');
 
@@ -34,17 +53,17 @@ document.addEventListener('DOMContentLoaded', function () {
 		});
 	}
 
+	// Функция для обновления таблицы на заданной странице
 	function updateTable(page) {
-		const pageSize = 8; // припускаємо, що pageSize дорівнює 8
+		const pageSize = 8; // Количество элементов на странице
 		const start = (page - 1) * pageSize;
 		const end = page * pageSize;
 		const paginatedData = data.slice(start, end);
 
-		// Очищуємо поточну таблицю
 		const tbody = document.querySelector('#customer-table tbody');
 		tbody.innerHTML = '';
 
-		// Додаємо нові рядки до таблиці
+		// Заполнение таблицы данными
 		paginatedData.forEach((item) => {
 			const tr = document.createElement('tr');
 			if (item.status) {
@@ -54,43 +73,35 @@ document.addEventListener('DOMContentLoaded', function () {
 			tr.innerHTML = `
         <td>${item.customer_name}</td>
         <td>${item.company}</td>
-        <td>${item.phone_number.replace(
-					/(\d{3})-(\d{3})-(\d{4})/,
-					'($1)-$2-$3'
-				)}</td>
-				<td>${item.email}</td>
+        <td>${item.phone_number.replace(/(\d{3})-(\d{3})-(\d{4})/, '($1)-$2-$3')}</td>
+        <td>${item.email}</td>
         <td>${item.country}</td>
         <td class="status">
-          ${
-						item.status
-							? '<span class="status__active">Active</span>'
-							: '<span class="status__inactive">Inactive</span>'
-					}
+          ${item.status ? '<span class="status__active">Активный</span>' : '<span class="status__inactive">Неактивный</span>'}
         </td>
       `;
 			tbody.appendChild(tr);
 		});
 
-		// Оновлюємо активний клас для пагінації
+		// Обновление активного класса для ссылок пагинации
 		const paginationLinks = document.querySelectorAll('.pagination__link');
 		paginationLinks.forEach((link) => link.classList.remove('active'));
-		const activeLink = document.querySelector(
-			`.pagination-link[data-page="${page}"]`
-		);
+		const activeLink = document.querySelector(`.pagination__link[data-page="${page}"]`);
 		if (activeLink) {
 			activeLink.classList.add('active');
 		}
 
-		// Оновити посилання пагінації
 		updatePaginationLinks(page);
 	}
 
+	// Функция для обновления ссылок пагинации
 	function updatePaginationLinks(currentPage) {
 		const totalPages = Math.ceil(data.length / 8);
 		const paginationContainer = document.querySelector('nav.pagination');
 		paginationContainer.innerHTML = '';
 
-		if (currentPage >= 1) {
+		// Добавление ссылки на предыдущую страницу
+		if (currentPage > 1) {
 			const prevLink = document.createElement('a');
 			prevLink.classList.add('pagination__link');
 			prevLink.href = '#';
@@ -99,6 +110,7 @@ document.addEventListener('DOMContentLoaded', function () {
 			paginationContainer.appendChild(prevLink);
 		}
 
+		// Добавление видимых страниц и многоточий
 		getVisiblePages(totalPages, currentPage).forEach((page) => {
 			if (page !== '...') {
 				const pageLink = document.createElement('a');
@@ -117,6 +129,7 @@ document.addEventListener('DOMContentLoaded', function () {
 			}
 		});
 
+		// Добавление ссылки на следующую страницу
 		if (currentPage < totalPages) {
 			const nextLink = document.createElement('a');
 			nextLink.classList.add('pagination__link');
@@ -126,10 +139,10 @@ document.addEventListener('DOMContentLoaded', function () {
 			paginationContainer.appendChild(nextLink);
 		}
 
-		// Після оновлення посилань, встановлюємо обробники подій
 		setupPaginationLinks();
 	}
 
+	// Функция для обработки открытия меню
 	function handlerOpenMenu() {
 		const menu = document.getElementById('menu');
 		const sidebar = document.querySelector('.sidebar');
@@ -147,17 +160,18 @@ document.addEventListener('DOMContentLoaded', function () {
 
 		window.addEventListener('resize', () => {
 			if (window.innerWidth > 1200) {
-				sidebar.style.left = '0'; // Відкрити бічну панель на більших екранах
-				menu.style.display = 'none'; // Приховати меню
+				sidebar.style.left = '0'; 
+				menu.style.display = 'none'; 
 			} else {
-				sidebar.style.left = '-100%'; // Закрити бічну панель на менших екранах
-				menu.style.display = 'block'; // Показати меню
+				sidebar.style.left = '-100%'; 
+				menu.style.display = 'block'; 
 			}
 		});
 	}
 
-	// Запускаємо обробники подій
+	// Инициализация функций при загрузке страницы
 	handlerOpenMenu();
 	updatePaginationLinks(1);
+	updateTable(1);
 	setupPaginationLinks();
 });
