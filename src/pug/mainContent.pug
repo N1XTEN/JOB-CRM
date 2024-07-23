@@ -1,0 +1,8 @@
+- const customers = require('../js/MOCK_DATA.json')  // Import customers data in JavaScript
+- const currentPage = 1  // Initial page number
+main(class="main")
+	div.header
+		img(src=require("../assets/images/icons/menu.svg"), alt="menu" width="24px" height="24px" id="menu")
+		h2.user__name Hello Evano 👋🏼,
+	include table.pug
+	+customerTable(customers, currentPage)

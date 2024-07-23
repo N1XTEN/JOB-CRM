@@ -1,0 +1,43 @@
+mixin customerTable(data, currentPage, pageSize = 8)
+  div.table-container
+    div.table-top
+      div.table-top__text
+        h3 All Customers
+        div Active Members
+      div.table-top__search
+        img(src=require("../assets/images/icons/search.svg"), alt="search-ico")
+        input(type="text" placeholder="Search")
+    div.table
+      table#customer-table
+        thead
+          tr
+            th Customer Name
+            th Company
+            th Phone Number
+            th Email
+            th Country
+            th Status
+        tbody
+          each item, index in data.slice((currentPage - 1) * pageSize, currentPage * pageSize)
+            - active = item.status ? 'active' : ''
+            tr(class=active)
+              td= item.customer_name
+              td= item.company
+              td= item.phone_number.replace(/(\d{3})-(\d{3})-(\d{4})/, "($1)-$2-$3")
+              td= item.email
+              td= item.country
+              td(class="status")
+                if item.status
+                  span.status__active Active
+                else
+                  snap.status__inactive Inactive
+
+    if data.length > pageSize
+      div.table__bottom
+        div(class="table__bottom-info")=`Showing data ${((currentPage - 1) * pageSize) + 1 } to = ${Math.min(currentPage * pageSize, data.length)}  of ${data.length} entries`
+        nav.pagination
+          a.pagination__link(href=`#`, data-page=`${currentPage - 1}`)='<'
+          each page in Array(Math.ceil(data.length / pageSize)).keys()
+            a.pagination__link(href=`#`, class=(currentPage === page ? 'active' : ''), data-page=page + 1)= page + 1
+          if currentPage < Math.ceil(data.length / pageSize)
+            a.pagination__link(href=`#`, data-page=`${currentPage + 1}`)='>'

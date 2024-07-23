@@ -1,0 +1,17 @@
+aside(class="sidebar")
+	include mixins.pug
+
+	div(class='logo')
+		img(src=(require("../assets/images/icons/logo.svg")), alt="logo")
+		span.logo__name Dashboard
+		span.logo__version v.01
+	nav.nav
+		ul(class="nav__list")
+			+navMenu(['Dashboard', 'key-square.svg'],
+			 ['Product', '3d-square.svg'], 
+			 ['Customers', 'user-square.svg'], 
+			 ['Income', 'wallet-money.svg'], 
+			 ['Promote', 'discount-shape.svg'], 
+			 ['Help', 'message-question.svg']
+			)
+	+profile('Evano', 'Project manager', 'photo.png')

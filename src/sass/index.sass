@@ -1,0 +1,229 @@
+@import './_variables'
+
+* 
+	font-family: "Poppins", sans-serif
+	margin: 0
+	padding: 0
+	box-sizing: border-box
+
+.app 
+	display: flex
+	background-color: $backgroundPrimary
+
+.profile
+	display: flex
+
+.sidebar
+	display: flex
+	flex-direction: column
+	padding: 37px 28px 76px 28px
+	background-color: $sidebarColor
+	box-shadow: 0 10px 60px #E2ECF9
+	position: fixed
+	top: 0
+	bottom: 0
+	z-index: 10
+	transition: left 0.3s
+
+	.logo
+		display: flex
+		align-items: center
+		cursor: pointer
+		&__name
+			font-weight: 600
+			font-size: 26px
+			margin-left: 8px
+			margin-right: 4px
+		&__version
+			margin-top: 10px
+			font-size: 10px
+			color: #838383
+
+	.nav
+		margin-top: 64px
+		.nav__list
+			list-style: none
+			padding: 0
+			.nav__link
+				display: flex
+				align-content: center
+				color: $colorPrimary
+				cursor: pointer
+				font-size: 14px
+				padding: 11px 11px 8px 11px
+				border-radius: 8px
+				&_main
+					display: flex
+					align-items: center
+					font-weight: 600
+					width: 100%
+					margin-left: 14px
+				&:hover
+					transition: all 0.3s
+					background-color: $linkActive
+					color: #FFFFFF
+					img
+						filter: grayscale(100%) brightness(100)
+	.profile
+		display: flex
+		align-items: center
+		cursor: pointer
+		margin-top: auto
+		&__photo
+			margin-right: 12px
+		&__name
+			font-size: 14px
+			font-weight: 600
+		&__role
+			margin-top: 4px
+			font-size: 12px
+			color: #757575
+
+
+.main
+	margin: 41px 95px 41px 299.97px 
+	width: 100%
+	.header
+		display: flex
+		gap: 20px
+		#menu
+			display: none
+			cursor: pointer
+		.user__name
+			font-weight: 500
+			font-size: 24px
+
+
+.table-container
+	padding: 38px
+	margin-top: 51px
+	box-shadow: 0 10px 60px #E2ECF9
+	border-radius: 30px
+	.table-top
+		display: flex
+		justify-content: space-between
+		margin-bottom: 40px
+		&__text
+			h3 
+				font-size: 22px
+				font-weight: 600
+				margin-bottom: 7px
+			div
+				font-size: 14px
+				color: #16C098
+		&__search
+			display: flex
+			align-items: center
+			background-color: #edf3fd
+			border-radius: 10px
+			padding: 0px 8px
+			width: 216px
+			height: 38px
+			margin-right: 9px
+			img
+				width: 24px
+				height: 24px
+				margin-right: 8px
+			input
+				font-size: 14px
+				border: none
+				background: transparent
+				font-size: 12px
+				&:focus
+					outline: none
+				&::placeholder
+					color: #B5B7C0
+	#customer-table
+		width: 100%
+		font-size: 14px
+		thead
+			position: relative
+			&::after
+				content: ""
+				display: block
+				width: calc( 100% + 74px )
+				height: 1px
+				background-color: #EEEEEE
+				position: absolute
+				left: -38px
+			tr
+				th
+					text-align: left
+					color: #B5B7C0
+					font-weight: 500
+					padding: 14px 0
+		tbody
+			tr
+				border-bottom: 1px solid #EEEEEE
+				td
+					width: 20%
+					padding: 20px 0
+					font-weight: 500
+					color: #292D32
+						
+					.status
+						&__active
+							display: flex
+							justify-content: center
+							width: 84px
+							padding: 4px 8px
+							border-radius: 4px
+							border: 1px solid #008767
+							background-color: rgb(22,192,152, 38%)
+							color:#008767
+						&__inactive
+							display: flex
+							justify-content: center
+							width: 84px
+							padding: 4px 8px
+							border-radius: 4px
+							border: 1px solid #DF0404
+							background-color: #FFC5C5
+							color: #DF0404
+	.table__bottom
+		display: flex
+		justify-content: space-between
+		margin-top: 32px
+		.table__bottom-info
+			color: #B5B7C0
+			font-size: 14px
+
+		.pagination
+			display: flex
+			gap: 12px
+			&__link
+				padding: 6px 10px
+				background-color: #F5F5F5
+				border-radius: 4px
+				border: 1px solid #EEEEEE
+				color: #404b52
+				font-size: 12px
+				font-weight: 600
+				text-decoration: none
+				&.active
+					background-color: #5932EA
+					color: white
+	
+@media(max-width: 1280px)
+	.app
+		padding: 16px
+		.main
+			margin: 0
+	.sidebar
+		left: -100%
+	.main
+		margin: 20px
+		.header
+			#menu
+				display: block
+	.table-container
+		width: 100%
+		.table
+			overflow-x: auto
+			table
+				width: 1000px !important
+	.table-top, .table__bottom
+		flex-direction: column
+		gap: 20px
+		justify-content: center
+		align-items: center

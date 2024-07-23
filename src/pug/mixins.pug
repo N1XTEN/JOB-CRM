@@ -1,0 +1,14 @@
+mixin navMenu(...items)
+	each item in items
+		li.nav__link
+			img.nav__link-img(src=require("../assets/images/icons/"+item[1]), alt=""+item[1])
+			div.nav__link_main=item[0]
+			img.nav__link-after-img(src=require("../assets/images/icons/chevron-right.svg"), alt="chevron-right")
+
+mixin profile(name, role, photo)
+	div(class="profile")
+		div(class="profile__photo")
+			img(src=require("../assets/images/"+photo), alt=""+photo)
+		div(class="profile__user")
+			div(class="profile__name")=name 
+			div(class="profile__role")=role
